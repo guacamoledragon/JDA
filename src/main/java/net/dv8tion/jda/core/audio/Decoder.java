@@ -72,6 +72,10 @@ public class Decoder
 
             byte[] encodedAudio = decryptedPacket.getEncodedAudio();
 
+            if(encodedAudio[0] == (byte)0x90 && encodedAudio[1] == (byte)0x00) {
+                System.arraycopy(encodedAudio, 2, encodedAudio, 0, encodedAudio.length - 2);
+            }
+
             result = Opus.INSTANCE.opus_decode(opusDecoder, encodedAudio, encodedAudio.length, decoded,
                     AudioConnection.OPUS_FRAME_SIZE, 0);
         }
